@@ -37,7 +37,7 @@ var uniforms;
         },
         surface: {
             type: "t",
-            value: new THREE.ImageUtils.loadTexture('resource/brickwall_900x600_small.jpg')
+            value: new THREE.ImageUtils.loadTexture('resource/neptunemap.jpg')
         }}; // regular texture
 
 function Init() {
