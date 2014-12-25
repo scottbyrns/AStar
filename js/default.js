@@ -34,7 +34,7 @@ function Init() {
     //setup camera
     camera = new LeiaCamera({
         cameraPosition: new THREE.Vector3(_camPosition.x, _camPosition.y, _camPosition.z),
-        targetPosition: new THREE.Vector3(_tarPosition.x, _tarPosition.y, _tarPosition.z - 17.5)
+        targetPosition: new THREE.Vector3(_tarPosition.x, _tarPosition.y, _tarPosition.z)
     });
     scene.add(camera);
 
@@ -46,6 +46,8 @@ function Init() {
         colorMode: _colorMode,
         devicePixelRatio: 1
     });
+      renderer.shadowMapEnabled = true;
+    renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.Leia_setSize(windowWidth, 0.75 * windowWidth);
     renderer.shadowMapEnabled = true;
     renderer.shadowMapSoft = true;
@@ -66,7 +68,7 @@ function animate() {
     uniforms.time.value += 0.2 * delta;
 
     renderer.setClearColor(new THREE.Color().setRGB(1.0, 1.0, 1.0));
-    renderer.shadowMapEnabled = true;
+
     renderer.Leia_render({
         scene: scene,
         camera: camera,
