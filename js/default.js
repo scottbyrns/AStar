@@ -45,7 +45,7 @@ function Init() {
 
     });
   
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 100, 100), shaderMaterial);
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 10, 30), shaderMaterial);
     sphere.castShadow = true;
     sphere.receiveShadow = true;
 //   sphere.overdraw = true;
