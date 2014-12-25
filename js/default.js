@@ -1,6 +1,7 @@
 var windowWidth = window.innerWidth,
     windowHeight = window.innerHeight;
-var camera, renderer, scene, leap, sphere;
+var camera, renderer, scene, leap;
+window.sphere = {};
 var group;
 var clock = new THREE.Clock();
 
@@ -36,6 +37,18 @@ function Init() {
     group = new THREE.Object3D();
   
   
+    var shaderMaterial = new THREE.ShaderMaterial({
+
+        uniforms: uniforms,
+        vertexShader: document.getElementById('sunSurfaceVertexShader').textContent,
+        fragmentShader: document.getElementById('sunSurfaceFragmentShader').textContent
+
+    });
+  
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 100, 100), shaderMaterial);
+    sphere.castShadow = true;
+    sphere.receiveShadow = true;
+//   sphere.overdraw = true;
 	leap = new THREE.LeapMotion();
   
   
@@ -43,8 +56,9 @@ function Init() {
 
 				if ( frame.hasHandsVisible() ) {
 					if (frame.isCursorMode()) {
-					console.log('cursor')	frame.getDominantHand().fingers[0].tip.position.y -= 50;
-						sphere.position = frame.getDominantHand().fingers[0].tip.position;
+                      
+//                         frame.getDominantHand().fingers[0].tip.position.y -= 50;
+						sphere.position.set(frame.getDominantHand().fingers[0].tip.position.x, frame.getDominantHand().fingers[0].tip.position.y - 17.5, frame.getDominantHand().fingers[0].tip.position.z);
 					}
 					else {
 						frame.getDominantHand().palm.position.y -= 50;
@@ -115,18 +129,6 @@ function UpateTimeObject() {
     }
     bInitTimeObject = true;
   
-    var shaderMaterial = new THREE.ShaderMaterial({
-
-        uniforms: uniforms,
-        vertexShader: document.getElementById('sunSurfaceVertexShader').textContent,
-        fragmentShader: document.getElementById('sunSurfaceFragmentShader').textContent
-
-    });
-  
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 100, 100), shaderMaterial);
-    sphere.castShadow = true;
-    sphere.receiveShadow = true;
-  sphere.overdraw = true;
     group.add(sphere);
  
     scene.add(group);
