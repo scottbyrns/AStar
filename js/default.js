@@ -37,7 +37,7 @@ var uniforms;
         },
         surface: {
             type: "t",
-            value: new THREE.ImageUtils.loadTexture('resource/neptunemap.jpg')
+            value: new THREE.ImageUtils.loadTexture('resource/sun.jpg')
         }}; // regular texture
 
 function Init() {
