@@ -1,6 +1,6 @@
 var windowWidth = window.innerWidth,
     windowHeight = window.innerHeight;
-var camera, renderer, scene;
+var camera, renderer, scene, leap, sphere;
 var group;
 var clock = new THREE.Clock();
 
@@ -22,6 +22,10 @@ function Init() {
             type: "f",
             value: 1.0
         },
+      resolution: {
+        type: "v2",
+        value: new THREE.Vector2(1.0, 1.0)
+      },
         surface: {
             type: "t",
             value: new THREE.ImageUtils.loadTexture('resource/sun.jpg')
@@ -30,7 +34,26 @@ function Init() {
   
     scene = new THREE.Scene();
     group = new THREE.Object3D();
+  
+  
+	leap = new THREE.LeapMotion();
+  
+  
+			leap.handleFrame = function ( frame ) {
 
+				if ( frame.hasHandsVisible() ) {
+					if (frame.isCursorMode()) {
+					console.log('cursor')	frame.getDominantHand().fingers[0].tip.position.y -= 50;
+						sphere.position = frame.getDominantHand().fingers[0].tip.position;
+					}
+					else {
+						frame.getDominantHand().palm.position.y -= 50;
+						sphere.position = frame.getDominantHand().palm.position;//.multiplyScalar( camera.position.z/500 );
+					}
+				}
+// 				renderer.render(scene, camera);
+			};
+  
     //setup camera
     camera = new LeiaCamera({
         cameraPosition: new THREE.Vector3(_camPosition.x, _camPosition.y, _camPosition.z),
@@ -59,6 +82,9 @@ function Init() {
     //add Light
     addLights();
 }
+
+
+
 
 function animate() {
     requestAnimationFrame(animate);
@@ -97,11 +123,12 @@ function UpateTimeObject() {
 
     });
   
-    var sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 100, 100), shaderMaterial);
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 100, 100), shaderMaterial);
     sphere.castShadow = true;
     sphere.receiveShadow = true;
+  sphere.overdraw = true;
     group.add(sphere);
-
+ 
     scene.add(group);
 }
 
