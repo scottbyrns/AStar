@@ -145,9 +145,12 @@ function addObjectsToScene() {
           if ( frame.hasHandsVisible() ) {
               // Update scene here.
               var palmPosition = frame.getDominantHand().palm.position;
-              // myObject.position.set(palmPosition.x, palmPosition.y, palmPosition.z);
-//             console.log(palmPosition.z);
+              var hand = frame.getDominantHand();
             sphere.position.set(palmPosition.x/100, -palmPosition.z/100, (palmPosition.y/100) + 10);
+            
+            sphere.rotation.x = hand.roll;
+            sphere.rotation.y = hand.pitch;
+            sphere.rotation.z = hand.yaw;
           }
         };
 
