@@ -168,7 +168,7 @@ function LEIA_setBackgroundPlane(filename, aspect) {
     //     //
     //     var planeMaterial = shaderMaterial;
         var planeGeometry = new THREE.PlaneGeometry(80, 60, 10, 10);
-        plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial);
+  plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial({color:"#000"}));
       console.log(plane);
       plane.updateMatrix();
         plane.position.z = -6;
