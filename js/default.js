@@ -157,19 +157,17 @@ function addLights() {
 }
 
 function LEIA_setBackgroundPlane(filename, aspect) {
-
-
-
+  
     var foregroundPlaneTexture = new THREE.ImageUtils.loadTexture(filename);
     foregroundPlaneTexture.wrapS = foregroundPlaneTexture.wrapT = THREE.RepeatWrapping;
     foregroundPlaneTexture.repeat.set(1, 1);
 
-    //     //
-    //     var planeMaterial = shaderMaterial;
+    var planeMaterial = new THREE.MeshPhongMaterial({
+        map: foregroundPlaneTexture,
+        color: 0xffdd99
+    });
     var planeGeometry = new THREE.PlaneGeometry(80, 60, 10, 10);
-    plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial({
-        color: "#000"
-    }));
+    plane = new THREE.Mesh(planeGeometry, planeMaterial);
     console.log(plane);
     plane.updateMatrix();
     plane.position.z = -6;
