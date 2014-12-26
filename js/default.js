@@ -23,20 +23,20 @@ function Init() {
             type: "f",
             value: 1.0
         },
-      resolution: {
-        type: "v2",
-        value: new THREE.Vector2(1.0, 1.0)
-      },
+        resolution: {
+            type: "v2",
+            value: new THREE.Vector2(1.0, 1.0)
+        },
         surface: {
             type: "t",
             value: new THREE.ImageUtils.loadTexture('resource/sun.jpg')
         }
     };
-  
+
     scene = new THREE.Scene();
     group = new THREE.Object3D();
-  
-  
+
+
     var shaderMaterial = new THREE.ShaderMaterial({
 
         uniforms: uniforms,
@@ -44,30 +44,29 @@ function Init() {
         fragmentShader: document.getElementById('sunSurfaceFragmentShader').textContent
 
     });
-  
+
     sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 30, 30), shaderMaterial);
     sphere.castShadow = true;
     sphere.receiveShadow = true;
-//   sphere.overdraw = true;
-	leap = new THREE.LeapMotion();
-  
-  
-			leap.handleFrame = function ( frame ) {
+    //   sphere.overdraw = true;
+    leap = new THREE.LeapMotion();
 
-				if ( frame.hasHandsVisible() ) {
-					if (frame.isCursorMode()) {
-                      
-//                         frame.getDominantHand().fingers[0].tip.position.y -= 50;
-						sphere.position.set(frame.getDominantHand().fingers[0].tip.position.x, frame.getDominantHand().fingers[0].tip.position.y - 17.5, frame.getDominantHand().fingers[0].tip.position.z);
-					}
-					else {
-						frame.getDominantHand().palm.position.y -= 50;
-						sphere.position = frame.getDominantHand().palm.position;//.multiplyScalar( camera.position.z/500 );
-					}
-				}
-// 				renderer.render(scene, camera);
-			};
-  
+
+    leap.handleFrame = function(frame) {
+
+        if (frame.hasHandsVisible()) {
+            if (frame.isCursorMode()) {
+
+                //                         frame.getDominantHand().fingers[0].tip.position.y -= 50;
+                sphere.position.set(frame.getDominantHand().fingers[0].tip.position.x, frame.getDominantHand().fingers[0].tip.position.y - 17.5, frame.getDominantHand().fingers[0].tip.position.z);
+            } else {
+                frame.getDominantHand().palm.position.y -= 50;
+                sphere.position = frame.getDominantHand().palm.position; //.multiplyScalar( camera.position.z/500 );
+            }
+        }
+        // 				renderer.render(scene, camera);
+    };
+
     //setup camera
     camera = new LeiaCamera({
         cameraPosition: new THREE.Vector3(_camPosition.x, _camPosition.y, _camPosition.z),
@@ -83,7 +82,7 @@ function Init() {
         colorMode: _colorMode,
         devicePixelRatio: 1
     });
-      renderer.shadowMapEnabled = true;
+    renderer.shadowMapEnabled = true;
     renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.Leia_setSize(windowWidth, 0.75 * windowWidth);
     renderer.shadowMapEnabled = true;
@@ -106,9 +105,9 @@ function animate() {
     var delta = 0.5 * clock.getDelta();
 
     uniforms.time.value += 0.2 * delta;
-  sphere.rotation.y += Math.sin(1/uniforms.time.value) * delta * delta;
-  sphere.rotation.z += Math.cos(1/uniforms.time.value) * delta;
-  sphere.rotation.x += Math.tan(1/uniforms.time.value) * delta;
+    sphere.rotation.y += Math.sin(1 / uniforms.time.value) * delta * delta;
+    sphere.rotation.z += Math.cos(1 / uniforms.time.value) * delta;
+    sphere.rotation.x += Math.tan(1 / uniforms.time.value) * delta;
 
     renderer.setClearColor(new THREE.Color().setRGB(1.0, 1.0, 1.0));
 
@@ -131,9 +130,9 @@ function UpateTimeObject() {
         // console.log("remove");
     }
     bInitTimeObject = true;
-  
+
     group.add(sphere);
- 
+
     scene.add(group);
 }
 
@@ -167,12 +166,14 @@ function LEIA_setBackgroundPlane(filename, aspect) {
 
     //     //
     //     var planeMaterial = shaderMaterial;
-        var planeGeometry = new THREE.PlaneGeometry(80, 60, 10, 10);
-  plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial({color:"#000"}));
-      console.log(plane);
-      plane.updateMatrix();
-        plane.position.z = -6;
-        plane.castShadow = false;
-        plane.receiveShadow = true;
-        scene.add(plane);
+    var planeGeometry = new THREE.PlaneGeometry(80, 60, 10, 10);
+    plane = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial({
+        color: "#000"
+    }));
+    console.log(plane);
+    plane.updateMatrix();
+    plane.position.z = -6;
+    plane.castShadow = false;
+    plane.receiveShadow = true;
+    scene.add(plane);
 }
