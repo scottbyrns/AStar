@@ -197,7 +197,7 @@
  
 	    // add time to the noise parameters so it's animated
 	    noise = 10.0 *  -.10 * turbulence( 1.0 * normal + time );
-	    float b = 2.0 * pnoise( 0.25 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
+	    float b = 12.0 * pnoise( 0.25 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
 	    float displacement = - noise + b;
      
 	    vec3 newPosition = position + normal * (displacement/2.0);
