@@ -3,6 +3,7 @@ var windowWidth = window.innerWidth,
 var camera, renderer, scene, leap;
 window.sphere = {};
 var group;
+var leapControl = false;
 var clock = new THREE.Clock();
 
 var bInitTimeObject = false;
@@ -106,9 +107,17 @@ function animate() {
     var delta = 0.5 * clock.getDelta();
 
     uniforms.time.value += 0.2 * delta;
+  
+    if(leapControl) {
+    leapControl=false;  
+    }
+  else {
+      
   sphere.rotation.y += Math.sin(1/uniforms.time.value) * delta * delta;
   sphere.rotation.z += Math.cos(1/uniforms.time.value) * delta;
   sphere.rotation.x += Math.tan(1/uniforms.time.value) * delta;
+
+  }
 
     renderer.setClearColor(new THREE.Color().setRGB(1.0, 1.0, 1.0));
 
@@ -142,15 +151,18 @@ function addObjectsToScene() {
     UpateTimeObject();
     LEIA_setBackgroundPlane('resource/brickwall_900x600_small.jpg');
           leap.handleFrame = function ( frame ) {
+            leapControl = true;
           if ( frame.hasHandsVisible() ) {
               // Update scene here.
               var palmPosition = frame.getDominantHand().palm.position;
               var hand = frame.getDominantHand();
             sphere.position.set(palmPosition.x/100, -palmPosition.z/100, (palmPosition.y/100) + 10);
             
-            sphere.rotation.x = hand.roll;
-            sphere.rotation.y = hand.pitch;
-            sphere.rotation.z = hand.yaw;
+//             sphere.rotation.z = hand.roll;
+//             sphere.rotation.y = hand.pitch;
+            sphere.rotation.y = palmPosition.x/100;
+            sphere.rotation.x = palmPosition.z/100;
+            sphere.rotation.z = palmPosition.y/100;
           }
         };
 
