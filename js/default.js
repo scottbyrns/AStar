@@ -45,7 +45,7 @@ function Init() {
 
     });
   
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 10, 30), shaderMaterial);
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(17.5, 30, 30), shaderMaterial);
     sphere.castShadow = true;
     sphere.receiveShadow = true;
 //   sphere.overdraw = true;
@@ -106,6 +106,9 @@ function animate() {
     var delta = 0.5 * clock.getDelta();
 
     uniforms.time.value += 0.2 * delta;
+  sphere.rotation.y += Math.sin(1/uniforms.time.value) * delta * delta;
+  sphere.rotation.z += Math.cos(1/uniforms.time.value) * delta;
+  sphere.rotation.x += Math.tan(1/uniforms.time.value) * delta;
 
     renderer.setClearColor(new THREE.Color().setRGB(1.0, 1.0, 1.0));
 
