@@ -52,21 +52,21 @@ function Init() {
 	leap = new THREE.LeapMotion();
   
   
-			leap.handleFrame = function ( frame ) {
+// 			leap.handleFrame = function ( frame ) {
 
-				if ( frame.hasHandsVisible() ) {
-					if (frame.isCursorMode()) {
+// 				if ( frame.hasHandsVisible() ) {
+// 					if (frame.isCursorMode()) {
                       
-//                         frame.getDominantHand().fingers[0].tip.position.y -= 50;
-						sphere.position.set(frame.getDominantHand().fingers[0].tip.position.x, frame.getDominantHand().fingers[0].tip.position.y - 17.5, frame.getDominantHand().fingers[0].tip.position.z);
-					}
-					else {
-						frame.getDominantHand().palm.position.y -= 50;
-						sphere.position = frame.getDominantHand().palm.position;//.multiplyScalar( camera.position.z/500 );
-					}
-				}
-// 				renderer.render(scene, camera);
-			};
+// //                         frame.getDominantHand().fingers[0].tip.position.y -= 50;
+// 						sphere.position.set(frame.getDominantHand().fingers[0].tip.position.x, frame.getDominantHand().fingers[0].tip.position.y - 17.5, frame.getDominantHand().fingers[0].tip.position.z);
+// 					}
+// 					else {
+// 						frame.getDominantHand().palm.position.y -= 50;
+// 						sphere.position = frame.getDominantHand().palm.position;//.multiplyScalar( camera.position.z/500 );
+// 					}
+// 				}
+// // 				renderer.render(scene, camera);
+// 			};
   
     //setup camera
     camera = new LeiaCamera({
@@ -141,6 +141,16 @@ function addObjectsToScene() {
     //Add your objects here
     UpateTimeObject();
     LEIA_setBackgroundPlane('resource/brickwall_900x600_small.jpg');
+          leap.handleFrame = function ( frame ) {
+          if ( frame.hasHandsVisible() ) {
+              // Update scene here.
+              var palmPosition = frame.getDominantHand().palm.position;
+              // myObject.position.set(palmPosition.x, palmPosition.y, palmPosition.z);
+//             console.log(palmPosition.z);
+            sphere.position.set(palmPosition.x/100, -palmPosition.z/100, (palmPosition.y/100) + 10);
+          }
+        };
+
 }
 
 function addLights() {
